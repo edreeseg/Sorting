@@ -3,7 +3,7 @@ def linear_search(arr, target):
   
   # TO-DO: add missing code
   for i in range(len(arr)):
-    if (n == target):
+    if (arr[i] == target):
       return i
   return -1   # not found
 
