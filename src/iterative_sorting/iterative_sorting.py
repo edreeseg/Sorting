@@ -25,8 +25,25 @@ def bubble_sort( arr ):
 
 # STRETCH: implement the Count Sort function below
 def count_sort( arr, maximum=-1 ):
+    count = [] if maximum == -1 else [0] * (maximum + 1)
+    for n in arr:
+        try:
+            count[n]+=1
+        except IndexError:
+            count.extend([0] * (n-len(count)) + [1])
+    sum = 0
+    for i in range(len(count)):
+        sum += count[i]
+        count[i] = sum
+    count.insert(0, 0)
+    del count[-1]
+    result = [0] * len(arr)
+    for n in arr:
+        result[count[n]] = n
+        count[n]+=1
+    return result
 
-    return arr
+print(count_sort([], 0))
 
 # EXTRA: insertion sort
 def insertion_sort(arr):
