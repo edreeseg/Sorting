@@ -31,13 +31,6 @@ def merge_sort_in_place(arr, l, r):
 
     return arr
 
-
-# STRETCH: implement the Timsort function below
-# hint: check out https://github.com/python/cpython/blob/master/Objects/listsort.txt
-def timsort( arr ):
-
-    return arr
-
 # EXTRA quicksort
 def partition(l):
     left, right, pivot = [], [], l[0]
@@ -52,3 +45,39 @@ def quicksort(l):
         return l
     left, right, pivot = partition(l)
     return quicksort(left) + [pivot] + quicksort(right)
+
+def binary_search_recursive(arr, target, low, high):
+    if low == high:
+        return low if arr[low] > target else low+1
+    if low > high:
+        return low 
+    middle = (low+high)//2
+    if arr[middle] == target:
+        return middle
+    return binary_search_recursive(arr, target, low, middle-1) if arr[middle] > target else binary_search_recursive(arr, target, middle+1, high)
+
+def binary_insertion_sort(arr):
+    for i in range(1, len(arr)):
+        value = arr[i]
+        j = binary_search_recursive(arr, value, 0, i-1)
+        arr = arr[:j] + [value] + arr[j:i] + arr[i+1:]
+    return arr
+
+# STRETCH: implement the Timsort function below
+# hint: check out https://github.com/python/cpython/blob/master/Objects/listsort.txt
+def timsort( arr ):
+    if (len(arr) <= 1):
+        return arr
+    if (len(arr) <= 64):
+        return binary_insertion_sort(arr)
+    middle = len(arr)//2
+    left, right = timsort(arr[:middle]), timsort(arr[middle:])
+    return merge(left, right)
+
+test = []
+import random
+random.seed()
+for i in range(10):
+    test.append(random.randrange(1000))
+print(test)
+print(timsort(test))
